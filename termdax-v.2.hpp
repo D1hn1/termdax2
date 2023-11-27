@@ -1,6 +1,6 @@
 //MIT License
 
-//Copyright 2023 (c) termdax-v.2
+//Copyright 2023 (c) termdax-v.2.hpp
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -258,6 +258,7 @@ namespace trm
 
 	struct TRM_TEXT
 	{
+
 		private:
 
 			int temp_x, temp_y;
@@ -275,9 +276,30 @@ namespace trm
 
 			void Push (int x, int y, const char *text, const char *text_color, const char *bg_color)
 			{
+				this->x = x;
+				this->y = y;
+				this->text = text;
+				this->bg_color = bg_color;
+				this->text_color = text_color;
+				this->temp_x = this->x;
+				this->temp_y = this->y;
+				this->temp_text = this->text;
+				this->temp_bg_color = this->bg_color;
+				this->temp_text_color = this->text_color;
+				TRM_TEXT_ARRAY.push_back({TRM_TEXT_TYPE, this->x, this->y, this->text, this->bg_color, this->text_color});
+			};
 
-
-			}
+			void Update ()
+			{
+				if (this->temp_x != this->x || this->temp_y != this->y || this->temp_text != this->text || this->temp_bg_color != this->bg_color || this->temp_text_color != this->text_color ) {
+					this->temp_x = this->x;
+					this->temp_y = this->y;
+					this->temp_text = this->text;
+					this->temp_bg_color = this->bg_color;
+					this->temp_text_color = this->text_color;
+					TRM_TEXT_ARRAY.push_back({TRM_TEXT_TYPE, this->x, this->y, this->text, this->bg_color, this->text_color});
+				};
+			};
 
 	};
 }
