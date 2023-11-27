@@ -30,18 +30,18 @@
 #include <termios.h>
 #include <sys/ioctl.h>
 
+#define TRM_NULL ""
 #define TRM_RECT_TYPE 0
 #define TRM_TEXT_TYPE 1
 #define TRM_RED "\e[31m"
 #define TRM_BLUE "\e[32m"
+#define TRM_ENDBG "\e[0m"
 #define TRM_GREEN "\e[34m"
-#define TRM_ENDCOLOR "\e[0m"
+#define TRM_EVENT_RESIZE 1
 #define TRM_BG_RED "\e[41m"
 #define TRM_BG_BLUE "\e[44m"
+#define TRM_ENDCOLOR "\e[0m"
 #define TRM_BG_GREEN "\e[42m"
-#define TRM_ENDBG "\e[0m"
-#define TRM_NULL ""
-#define TRM_EVENT_RESIZE 1
 
 int TRM_WINDOW_X = 0;
 int TRM_WINDOW_Y = 0;
