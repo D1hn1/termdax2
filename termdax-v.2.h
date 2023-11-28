@@ -23,6 +23,9 @@
 #ifndef _TERMDAX_IMPL
 #define _TERMDAX_IMPL
 
+#include <string>
+#include <cstring>
+
 #include <vector>
 #include <fcntl.h>
 #include <unistd.h>
@@ -94,11 +97,30 @@ namespace trm
 
 			int printct ( struct TRM_TEXT_STRUCT object )
 			{
+				int until_n = 0;
 				if ( object.text_color != TRM_NULL || object.bg_color != TRM_NULL ) {
-					std::cout << object.text_color << object.bg_color << object.text << TRM_ENDBG << TRM_ENDCOLOR << std::flush;
+					for ( int x = 0; x < strlen(object.text); x++ ) {
+						if ( object.text[x] == '\n' ) {
+							utilities.cmovedown(1);
+							utilities.cmovebackwards(until_n);
+							until_n = 0;
+						} else {
+							std::cout << object.text_color << object.bg_color << object.text[x] << TRM_ENDBG << TRM_ENDCOLOR << std::flush;
+							until_n++;
+						};
+					};
 					return 1;
 				};
-				std::cout << object.text << std::flush;
+				for ( int x = 0; x < strlen(object.text); x++ ) {
+					if ( object.text[x] == '\n' ) {
+						utilities.cmovedown(1);
+						utilities.cmovebackwards(until_n);
+						until_n = 0;
+					} else {
+						std::cout << object.text[x] << std::flush;
+						until_n++;
+					};
+				};
 				return 0;
 			};
 
@@ -130,7 +152,7 @@ namespace trm
 				utilities.cmoveto(0,0);
 				for ( int y = 0; y < TRM_WINDOW_Y; y++ ) {
 					for ( int x = 0; x < TRM_WINDOW_X; x++ ) {
-						std::cout << color << " " << TRM_ENDBG;
+						std::cout << color << " " << TRM_ENDBG << std::flush;
 					};
 				};
 				utilities.cmoveto(0,0);
@@ -180,7 +202,6 @@ namespace trm
 			struct utilities
 			{
 			
-				void clear () {system("clear");};
 				void rawterm () {system("stty raw");};
 				void noecho () {system("stty -echo");};
 				void nocanon () {system("stty -icanon");};
@@ -188,6 +209,7 @@ namespace trm
 				void showcursor () {system("tput cnorm");};
 				void cookedterm () {system("stty cooked");};
 				void reset_terminal () {system("tput reset");};
+				void clear () {std::cout << "\033[2J" << std::flush;};
 				void cmoveup( int times ) { std::cout << "\033[" << times << "A"; };
 				void cmovedown( int times ) { std::cout << "\033[" << times << "B"; };
 				void cmoveforward( int times ) { std::cout << "\033[" << times << "C"; };
