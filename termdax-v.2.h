@@ -23,11 +23,10 @@
 #ifndef _TERMDAX_IMPL
 #define _TERMDAX_IMPL
 
-#include <string>
-#include <cstring>
-
 #include <vector>
+#include <string>
 #include <fcntl.h>
+#include <cstring>
 #include <unistd.h>
 #include <iostream>
 #include <termios.h>
