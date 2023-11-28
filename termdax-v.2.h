@@ -39,12 +39,14 @@
 #define TRM_RED "\e[31m"
 #define TRM_BLUE "\e[32m"
 #define TRM_ENDBG "\e[0m"
+#define TRM_BLACK "\e[30m"
 #define TRM_GREEN "\e[34m"
 #define TRM_EVENT_RESIZE 1
 #define TRM_BG_RED "\e[41m"
 #define TRM_BG_BLUE "\e[44m"
 #define TRM_ENDCOLOR "\e[0m"
 #define TRM_BG_GREEN "\e[42m"
+#define TRM_BG_WHITE "\e[107m"
 
 int TRM_WINDOW_X = 0;
 int TRM_WINDOW_Y = 0;
@@ -88,10 +90,10 @@ namespace trm
 			int printcr ( struct TRM_RECTANGLE_STRUCT object )
 			{
 				if ( object.text_color != TRM_NULL || object.bg_color != TRM_NULL ) {
-					std::cout << object.text_color << object.bg_color << object._char << TRM_ENDBG << TRM_ENDCOLOR << std::flush;
+					std::cout << object.text_color << object.bg_color << object._char << TRM_ENDBG << TRM_ENDCOLOR;
 					return 1;
 				};
-				std::cout << object._char << std::flush;
+				std::cout << object._char;
 				return 0;
 			};
 
@@ -222,14 +224,6 @@ namespace trm
 	struct TRM_RECTANGLE
 	{
 
-		private:
-
-			bool temp_fill;
-			char temp_char;
-			const char *temp_bg_color;
-			const char *temp_text_color;
-			int temp_x, temp_y, temp_w, temp_h;
-
 		public:
 
 			int type;
@@ -250,43 +244,18 @@ namespace trm
 				this->_char = _char;
 				this->text_color = text_color;
 				this->bg_color = bg_color;
-				this->temp_fill = this->fill;
-				this->temp_char = this->_char;
-				this->temp_bg_color = this->bg_color;
-				this->temp_text_color = this->text_color;
-				this->temp_x = this->x; 
-				this->temp_y = this->y;
-				this->temp_w = this->w;
-				this->temp_h = this->h;
 				TRM_RECTANGLE_ARRAY.push_back({TRM_RECT_TYPE, this->fill, this->_char, this->x, this->y, this->w, this->h, this->bg_color, this->text_color });
 			};
 
 			void Update ()
 			{
-				if ( this->temp_fill != this->fill || this->temp_char != this->_char || this->temp_bg_color != this->bg_color || this->temp_text_color != this->text_color || this->temp_x != this->x || this->temp_y != this->y || this->temp_w != this->w || this->temp_h != this->h) {
-					this->temp_fill = this->fill;
-					this->temp_char = this->_char;
-					this->temp_bg_color = this->bg_color;
-					this->temp_text_color = this->text_color;
-					this->temp_x = this->x; 
-					this->temp_y = this->y;
-					this->temp_w = this->w;
-					this->temp_h = this->h;
-					TRM_RECTANGLE_ARRAY.push_back({TRM_RECT_TYPE, this->fill, this->_char, this->x, this->y, this->w, this->h, this->bg_color, this->text_color });
-				};
+				TRM_RECTANGLE_ARRAY.push_back({TRM_RECT_TYPE, this->fill, this->_char, this->x, this->y, this->w, this->h, this->bg_color, this->text_color });
 			};
 
 	};
 
 	struct TRM_TEXT
 	{
-
-		private:
-
-			int temp_x, temp_y;
-			const char *temp_text;
-			const char *temp_bg_color;
-			const char *temp_text_color;
 
 		public:
 
@@ -303,24 +272,13 @@ namespace trm
 				this->text = text;
 				this->bg_color = bg_color;
 				this->text_color = text_color;
-				this->temp_x = this->x;
-				this->temp_y = this->y;
-				this->temp_text = this->text;
-				this->temp_bg_color = this->bg_color;
-				this->temp_text_color = this->text_color;
+				
 				TRM_TEXT_ARRAY.push_back({TRM_TEXT_TYPE, this->x, this->y, this->text, this->bg_color, this->text_color});
 			};
 
 			void Update ()
 			{
-				if (this->temp_x != this->x || this->temp_y != this->y || this->temp_text != this->text || this->temp_bg_color != this->bg_color || this->temp_text_color != this->text_color ) {
-					this->temp_x = this->x;
-					this->temp_y = this->y;
-					this->temp_text = this->text;
-					this->temp_bg_color = this->bg_color;
-					this->temp_text_color = this->text_color;
-					TRM_TEXT_ARRAY.push_back({TRM_TEXT_TYPE, this->x, this->y, this->text, this->bg_color, this->text_color});
-				};
+				TRM_TEXT_ARRAY.push_back({TRM_TEXT_TYPE, this->x, this->y, this->text, this->bg_color, this->text_color});
 			};
 
 	};
