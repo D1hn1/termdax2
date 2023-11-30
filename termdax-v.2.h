@@ -1,6 +1,6 @@
 //MIT License
 
-//Copyright 2023 (c) termdax-v.2.h
+//Copyright 2023 © termdax-v.2.h
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
